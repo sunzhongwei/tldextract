@@ -51,7 +51,8 @@ import urlparse
 
 LOG = logging.getLogger("tldextract")
 
-SCHEME_RE = re.compile(r'^([' + urlparse.scheme_chars + ']+:)?//')
+SCHEME_RE = re.compile(r'^([' + urlparse.scheme_chars + ']+:)?//') # deprecated: should've been private all along
+_LENIENT_NETLOC_RE = re.compile(r'^(?P<scheme>([' + urlparse.scheme_chars + ']+:)?//)?(?P<netloc>[^/?#]*)(?P<path>.*)')
 IP_RE = re.compile(r'^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$')
 
 class ExtractResult(tuple):
@@ -124,7 +125,8 @@ class TLDExtract(object):
         >>> extract('http://forums.bbc.co.uk/')
         ExtractResult(subdomain='forums', domain='bbc', tld='co.uk')
         """
-        netloc = SCHEME_RE.sub("", url).partition("/")[0].partition("?")[0]
+        m = _LENIENT_NETLOC_RE.match(url)
+        netloc = m.group('netloc') or ''
         return self._extract(netloc)
 
     def _extract(self, netloc):
