@@ -132,7 +132,7 @@ class TLDExtract(object):
         registered_domain, tld = self._get_tld_extractor().extract(netloc)
         if not tld and netloc and netloc[0].isdigit():
             try:
-                is_ip = socket.inet_aton(netloc)
+                _ = socket.inet_aton(netloc)
                 return ExtractResult('', netloc, '')
             except AttributeError:
                 if IP_RE.match(netloc):
