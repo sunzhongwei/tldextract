@@ -22,6 +22,7 @@ top-level domain) from the registered domain and subdomains of a URL.
 from __future__ import with_statement
 try:
     import cPickle as pickle
+    assert pickle
 except ImportError:
     import pickle
 import errno
@@ -33,6 +34,7 @@ import sys
 
 try:
     import pkg_resources
+    assert pkg_resources
 except ImportError:
     class pkg_resources(object):
         """Fake pkg_resources interface which falls back to getting resources

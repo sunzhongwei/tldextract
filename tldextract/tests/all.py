@@ -4,6 +4,7 @@ import os
 import sys
 import unittest
 
+sys.path.append("..")
 import tldextract
 from tldextract import extract
 
@@ -88,7 +89,7 @@ class ExtractTest(unittest.TestCase):
 
 def test_suite():
     return unittest.TestSuite([
-        doctest.DocTestSuite(tldextract.tldextract),
+        doctest.DocTestSuite(tldextract),
         unittest.TestLoader().loadTestsFromTestCase(IntegrationTest),
         unittest.TestLoader().loadTestsFromTestCase(ExtractTest),
     ])
